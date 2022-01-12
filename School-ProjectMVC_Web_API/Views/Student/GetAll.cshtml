@@ -1,0 +1,15 @@
+﻿@using School_ProjectMVC_Web_API.Models;
+
+
+<div>
+    <h1> get all</h1>
+    @foreach (Student item in Model)
+    {
+        <h1>@item.Id</h1>
+        <h1>@item.FirstName</h1>
+        <h1>@item.LastName</h1>
+        <h1>@item.Grade</h1>
+        <h1>@item.Age</h1>
+    }
+
+</div>
