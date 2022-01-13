@@ -1,4 +1,5 @@
-﻿using System;
+﻿using School_ProjectMVC_Web_API.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,31 +10,60 @@ namespace School_ProjectMVC_Web_API.Controllers.api
 {
     public class StudentController : ApiController
     {
-        // GET: api/Student
-        public IEnumerable<string> Get()
+       static List<Student> ListStudent = new List<Student>();
+    private void  listStu()
+     {
+            ListStudent.Add(new Student(1, "lior", "yosef", "abc", 12));
+            ListStudent.Add(new Student(2, "avi", "yosef", "abc", 13));
+     }
+        
+
+    // GET: api/Student
+    public IHttpActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            listStu();
+            return Ok(ListStudent);
         }
 
         // GET: api/Student/5
-        public string Get(int id)
+        public IHttpActionResult Get(int id)
         {
-            return "value";
+            listStu();
+            return Ok(ListStudent.Find(stu => stu.Id==id));
         }
 
         // POST: api/Student
-        public void Post([FromBody]string value)
+        public IHttpActionResult Post([FromBody]Student value)
         {
+            listStu();
+            ListStudent.Add(value);
+            return Ok(value);
         }
 
         // PUT: api/Student/5
-        public void Put(int id, [FromBody]string value)
+        public IHttpActionResult Put(int id, [FromBody] Student value)
         {
+            foreach (Student item in ListStudent)
+            {
+                if (item.Id==id)
+                {
+                    value.FirstName = item.FirstName;
+                    value.LastName = item.LastName;
+                    value.Grade = item.Grade;   
+                    value.Age = item.Age;
+                    return Ok(value);
+                }
+            }
+            return Ok("not found");
+            
         }
 
         // DELETE: api/Student/5
-        public void Delete(int id)
+        public IHttpActionResult Delete(int id)
         {
+            listStu();
+            ListStudent.Remove(ListStudent.Find(stu => stu.Id== id));
+            return Ok(ListStudent);
         }
     }
 }
